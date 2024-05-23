@@ -1,0 +1,8 @@
+services:
+  occlumvm:
+    image: "occlum/occlum:latest-ubuntu20.04"
+    volumes:
+      - type: bind
+        source: .
+        target: /root/example
+    entrypoint: 'sleep 10000000'
