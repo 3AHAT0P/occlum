@@ -51,13 +51,11 @@ impl TryFrom<i32> for RusageWho {
 
 pub fn do_getrusage(who: RusageWho, rusage: &mut Rusage) -> Result<()> {
     debug!("getrusage who: {:?}", who);
-    let process = current!().process();
-    let main_thread = process.main_thread().unwrap();
-    let process_vm = main_thread.vm();// Measured in pages
+    let process_vm = current!().process().main_thread().vm();// Measured in pages
     let virtual_mem_usage = process_vm.get_in_use_size() / 1024; // in kibibytes
     let mut zero_rusage = Rusage::default();
     zero_rusage.ru_maxrss = virtual_mem_usage as i64;
-    zero_rusage.ru_utime = process.real_time();
+    zero_rusage.ru_utime = current!().process().real_time();
 
     core::mem::swap(rusage, &mut zero_rusage);
     Ok(())
