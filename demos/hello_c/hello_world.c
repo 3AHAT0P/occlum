@@ -10,8 +10,9 @@ int main()
     struct timeval start, end;
     int i, j, k, g = 0;
 
-    getrusage(RUSAGE_SELF, &usage);
+    signed char err1 = getrusage(RUSAGE_SELF, &usage);
     start = usage.ru_stime;
+
     for (g = 0; g < 3; g++)
     {
         for (i = 0; i < 10000; i++)
@@ -25,8 +26,10 @@ int main()
 
         printf("End of global loop %ld times\n", g);
     }
-    getrusage(RUSAGE_SELF, &usage2);
+    signed int err2 = getrusage(RUSAGE_SELF, &usage2);
     end = usage2.ru_stime;
+
+    printf("err1 is %d, err2 is %d \n", err1, err2);
 
     printf("Started at: %ld.%lds\n", start.tv_sec, start.tv_usec);
     printf("Ended at: %ld.%lds\n", end.tv_sec, end.tv_usec);
