@@ -51,7 +51,8 @@ impl TryFrom<i32> for RusageWho {
 
 pub fn do_getrusage(who: RusageWho, rusage: &mut Rusage) -> Result<()> {
     debug!("getrusage who: {:?}", who);
-    let process_vm = current!().process().main_thread().unwrap().vm(); // Measured in pages
+    let main_thread = current!().process().main_thread().unwrap(); // Measured in pages
+    let process_vm = main_thread.vm();
     let virtual_mem_usage = process_vm.get_in_use_size() / 1024; // in kibibytes
     let mut zero_rusage = Rusage::default();
     zero_rusage.ru_maxrss = virtual_mem_usage as i64;
