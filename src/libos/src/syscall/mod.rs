@@ -1049,6 +1049,7 @@ fn do_prlimit(
 }
 
 fn handle_unsupported(syscall_no: u8) -> Result<isize> {
+    error!("Unimplemented or unknown syscall ({:?})", syscall_no);
     return_errno!(ENOSYS, &*format!("Unimplemented or unknown syscall ({syscall_no})"))
 }
 
