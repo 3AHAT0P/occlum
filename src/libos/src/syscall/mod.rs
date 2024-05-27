@@ -480,6 +480,7 @@ macro_rules! impl_syscall_nums {
             type Error = error::Error;
 
             fn try_from(raw_num: u32) -> Result<Self> {
+                error!("[LOG try_from] Syscall with number ({:?})", raw_num);
                 match raw_num {
                     $(
                         $num => Ok(Self::$name),
