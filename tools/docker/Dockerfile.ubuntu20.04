@@ -136,7 +136,7 @@ RUN git clone -b sgx_2.20_for_occlum https://github.com/occlum/linux-sgx && \
 # Download the Occlum source
 ARG OCCLUM_BRANCH
 WORKDIR /root
-RUN git clone -b $OCCLUM_BRANCH https://github.com/occlum/occlum && \
+RUN git clone -b $OCCLUM_BRANCH https://gitlab.prod.dmp.vimpelcom.ru/hologram/holoocclum && \
     cd /root/occlum && git submodule update --init && \
     mkdir -p /opt/occlum/ && \
     cp /root/occlum/tools/docker/start_aesm.sh /opt/occlum/
@@ -203,7 +203,6 @@ RUN cd occlum && \
     make submodule && \
     OCCLUM_RELEASE_BUILD=1 make && \
     make install && \
-    cp -r demos /root/demos && \
     rm -rf /root/occlum
 
 # Start AESM service automatically
