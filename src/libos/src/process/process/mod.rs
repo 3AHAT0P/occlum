@@ -133,6 +133,14 @@ impl Process {
         self.start_time.as_millis() as u64 * crate::time::SC_CLK_TCK / 1000
     }
 
+    /// Get the real time of the process
+    ///
+    /// The value is expressed in timeval_t
+    pub fn real_time(&self) -> crate::time::timeval_t {
+        let current_time = crate::time::up_time::get().unwrap();
+        crate::time::timeval_t::from(current_time.saturating_sub(self.start_time.clone()))
+    }
+
     /// Get the file mode creation mask
     pub fn umask(&self) -> FileMode {
         self.umask.read().unwrap().clone()
